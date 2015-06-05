@@ -578,4 +578,14 @@ class Stroke:
 
     # You can (and should) define more features here
 
-
+def confusion(trueLabels, classifications):
+    label_names = set(trueLabels + classifications)
+    num_labels = min(len(trueLabels), len(classifications))
+    result = {}
+    for label in label_names:
+        result[label] = {}
+        for label2 in label_names:
+            result[label][label2] = 0
+    for i in range(num_labels):
+            result[trueLabels[i]][classifications[i]] += 1
+    return result

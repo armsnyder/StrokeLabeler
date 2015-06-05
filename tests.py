@@ -2,11 +2,7 @@ import unittest
 import StrokeHmm
 
 
-class TestBasic(unittest.TestCase):
-
-    def test_example(self):
-        self.assertEqual(1, 1)
-        self.assertTrue(True)
+class TestViterbi(unittest.TestCase):
 
     def test_rain(self):
         hmm = StrokeHmm.HMM(['rain', 'clear'], ['umbrella'], {'umbrella': StrokeHmm.DISCRETE}, {'umbrella': 2})
@@ -92,3 +88,9 @@ class TestBasic(unittest.TestCase):
         self.assertEqual(['Healthy', 'Healthy', 'Fever'], hmm.label([{'normal': 0, 'cold': 1, 'dizzy': 1},
                                                                      {'normal': 1, 'cold': 0, 'dizzy': 1},
                                                                      {'normal': 1, 'cold': 1, 'dizzy': 0}]))
+
+class TestConfusion(unittest.TestCase):
+    def test_confusion(self):
+        self.assertEqual({'drawing': {'drawing': 0, 'text': 3}, 'text': {'drawing': 3, 'text': 2}},
+                         StrokeHmm.confusion(['drawing', 'text', 'text', 'text', 'drawing', 'drawing', 'text', 'text'],
+                                             ['text', 'drawing', 'drawing', 'drawing', 'text', 'text', 'text', 'text']))

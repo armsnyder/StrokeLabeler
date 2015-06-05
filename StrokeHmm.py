@@ -129,8 +129,32 @@ class HMM:
         ''' Find the most likely labels for the sequence of data
             This is an implementation of the Viterbi algorithm  '''
         # You will implement this function
-        print "label function not yet implemented"
-        return None
+
+        # Initializations
+        prev_prob = {}  # Stores the probability of the most likely path ending at each state
+        path = {}       # Stores the most likely path ending at each state
+        for s in self.states:
+            prev_prob[s] = 1
+            path[s] = []
+
+        # Iterate through all of the strokes
+        for stroke in data:
+            prob = {}
+
+            # Calculate the probabilities of the next column of states
+            for s in self.states:
+                # Calculate the probability of each possible path ending in state s
+                for t in self.states:
+                    prev_prob[t] *= self.transitions[t][s]
+
+                # Find the most likely previous node, calculate the probabilty for node s, and create back pointer (effectively)
+                best_state = sorted(prev_prob, key=lambda val: -val[1])[0][0]
+                prob[s] = prev_prob[best_state]*self.getEmissionProb(s, stroke)
+                path[s] = [state for state in path[best_state]]
+                path[s].append(s)
+            prev_prob = prob
+
+        return path[sorted(prev_prob, key=lambda val: -val[1])[0][0]]
     
     def getEmissionProb( self, state, features ):
         ''' Get P(features|state).

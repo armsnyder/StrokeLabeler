@@ -150,8 +150,7 @@ class HMM:
                 # Find the most likely previous node, calculate the probabilty for node s, and create back pointer (effectively)
                 best_state = sorted(prev_prob.items(), key=lambda val: -val[1])[0][0]
                 prob[s] = prev_prob[best_state]*self.getEmissionProb(s, stroke)
-                path[s] = [state for state in path[best_state]]
-                path[s].append(s)
+                path[s] = path[best_state] + [s]
             prev_prob = prob
 
         return path[sorted(prev_prob.items(), key=lambda val: -val[1])[0][0]]

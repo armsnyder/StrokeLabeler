@@ -1,0 +1,7 @@
+What features did you try?
+    - curvature (summed absolute value)
+        * DISCRETE
+        * We determined a threshold by using the provided testFeatures function and looking at the numerical data. We
+          set a threshold where the cutoff between text and drawing seemed to be: 0.2.
+        * After adding this feature to the provided stroke length feature, results did not improve. The viterbi
+          algorithm still highly favored 'drawing' as a label.

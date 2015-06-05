@@ -140,10 +140,11 @@ class HMM:
         # Iterate through all of the strokes
         for stroke in data:
             prob = {}
-
+            new_path = {}
             # Calculate the probabilities of the next column of states
             for s in self.states:
                 # Calculate the probability of each possible path ending in state s
+                new_path[s] = []
                 for t in self.states:
                     if prev_prob[t] != 1:
                         prev_prob[t] *= self.transitions[t][s]
@@ -153,8 +154,9 @@ class HMM:
                 # Find the most likely previous node, calculate the probabilty for node s, and create back pointer (effectively)
                 best_state = sorted(prev_prob.items(), key=lambda val: -val[1])[0][0]
                 prob[s] = prev_prob[best_state]*self.getEmissionProb(s, stroke)
-                path[s] = path[best_state] + [s]
+                new_path[s] = path[best_state] + [s]
             prev_prob = prob
+            path = new_path
 
         return path[sorted(prev_prob.items(), key=lambda val: -val[1])[0][0]]
     

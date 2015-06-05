@@ -145,7 +145,10 @@ class HMM:
             for s in self.states:
                 # Calculate the probability of each possible path ending in state s
                 for t in self.states:
-                    prev_prob[t] *= self.transitions[t][s]
+                    if prev_prob[t] != 1:
+                        prev_prob[t] *= self.transitions[t][s]
+                    else:
+                        prev_prob[t] *= self.priors[s]
 
                 # Find the most likely previous node, calculate the probabilty for node s, and create back pointer (effectively)
                 best_state = sorted(prev_prob.items(), key=lambda val: -val[1])[0][0]

@@ -89,4 +89,6 @@ class TestBasic(unittest.TestCase):
         hmm.emissions = emission_probability
         hmm.priors = start_probability
         hmm.transitions = transition_probability
-        self.assertEqual(['Healthy', 'Healthy', 'Fever'], hmm.label([{'umbrella': 1}, {'umbrella': 1}, {'umbrella': 0}]))
+        self.assertEqual(['Healthy', 'Healthy', 'Fever'], hmm.label([{'normal': 0, 'cold': 1, 'dizzy': 1},
+                                                                     {'normal': 1, 'cold': 0, 'dizzy': 1},
+                                                                     {'normal': 1, 'cold': 1, 'dizzy': 0}]))

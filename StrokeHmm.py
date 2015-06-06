@@ -661,3 +661,103 @@ def confusion(trueLabels, classifications):
             result[trueLabels[i]][classifications[i]] += 1
 
     return result
+
+
+# Part 1 Viterbi Testing Example
+
+import unittest
+
+
+class TestViterbi(unittest.TestCase):
+
+    def test_rain(self):
+        hmm = HMM(['rain', 'clear'], ['umbrella'], {'umbrella': DISCRETE}, {'umbrella': 2})
+        prior = {
+            'rain': 0.5,
+            'clear': 0.5
+        }
+        transition = {
+            'rain': {
+                'rain': 0.7,
+                'clear': 0.3
+            },
+            'clear': {
+                'rain': 0.3,
+                'clear': 0.7
+            }
+        }
+        emission = {
+            'rain': {
+                'umbrella': [0.9, 0.1]
+            },
+            'clear': {
+                'umbrella': [0.2, 0.8]
+            }
+        }
+        hmm.emissions = emission
+        hmm.priors = prior
+        hmm.transitions = transition
+        self.assertEqual(['rain', 'rain', 'rain'], hmm.label([{'umbrella': 0}, {'umbrella': 0}, {'umbrella': 0}]))
+
+    def test_rain_more(self):
+        hmm = HMM(['rain', 'clear'], ['umbrella'], {'umbrella': DISCRETE}, {'umbrella': 2})
+        prior = {
+            'rain': 0.5,
+            'clear': 0.5
+        }
+        transition = {
+            'rain': {
+                'rain': 0.7,
+                'clear': 0.3
+            },
+            'clear': {
+                'rain': 0.3,
+                'clear': 0.7
+            }
+        }
+        emission = {
+            'rain': {
+                'umbrella': [0.9, 0.1]
+            },
+            'clear': {
+                'umbrella': [0.2, 0.8]
+            }
+        }
+        hmm.emissions = emission
+        hmm.priors = prior
+        hmm.transitions = transition
+        self.assertEqual(['clear', 'clear', 'rain'], hmm.label([{'umbrella': 1}, {'umbrella': 1}, {'umbrella': 0}]))
+
+    def test_wikipedia(self):
+        states = ('Healthy', 'Fever')
+        observations = ('normal', 'cold', 'dizzy')
+        start_probability = {'Healthy': 0.6, 'Fever': 0.4}
+        transition_probability = {
+           'Healthy': {'Healthy': 0.7, 'Fever': 0.3},
+           'Fever': {'Healthy': 0.4, 'Fever': 0.6}
+           }
+        emission_probability = {
+           'Healthy': {'normal': [0.5, 0.5], 'cold': [0.4, 0.6], 'dizzy': [0.1, 0.9]},
+           'Fever': {'normal': [0.1, 0.9], 'cold': [0.3, 0.7], 'dizzy': [0.6, 0.4]}
+           }
+        hmm = HMM(states, observations, {
+            'normal': DISCRETE,
+            'cold': DISCRETE,
+            'dizzy': DISCRETE
+        }, {
+            'normal': 2,
+            'cold': 2,
+            'dizzy': 2})
+        hmm.emissions = emission_probability
+        hmm.priors = start_probability
+        hmm.transitions = transition_probability
+        self.assertEqual(['Healthy', 'Healthy', 'Fever'], hmm.label([{'normal': 0, 'cold': 1, 'dizzy': 1},
+                                                                     {'normal': 1, 'cold': 0, 'dizzy': 1},
+                                                                     {'normal': 1, 'cold': 1, 'dizzy': 0}]))
+
+
+class TestConfusion(unittest.TestCase):
+    def test_confusion(self):
+        self.assertEqual({'drawing': {'drawing': 0, 'text': 3}, 'text': {'drawing': 3, 'text': 2}},
+                         confusion(['drawing', 'text', 'text', 'text', 'drawing', 'drawing', 'text', 'text'],
+                                             ['text', 'drawing', 'drawing', 'drawing', 'text', 'text', 'text', 'text']))

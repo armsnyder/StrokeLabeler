@@ -14,6 +14,10 @@ What features did you try?
         * We determined a threshold by using the provided testFeatures function and looking at the numerical data. We
           found that there were several cutoff points because text is written at a relatively constant speed, whereas
           drawings can be either very fast or very slow.
+    - letter matching
+        * DISCRETE (2 - T/F)
+        * We used a letter set from the training data to compare strokes to letters A-D. We set the tolerances by
+          examining sample results and using trial and error.
 
 We trained and tested our basic and improved algorithms over all of the training files. Our improved algorithm did a
 better job at classifying text, but was worse at classifying drawings.

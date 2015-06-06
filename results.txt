@@ -15,6 +15,8 @@ What features did you try?
           found that there were several cutoff points because text is written at a relatively constant speed, whereas
           drawings can be either very fast or very slow.
 
+We trained and tested our basic and improved algorithms over all of the training files. Our improved algorithm did a
+better job at classifying text, but was worse at classifying drawings.
 
 Basic Matrix:
 +-------------------+-------------------+-------------------+-------------------+
@@ -33,12 +35,3 @@ Improved Matrix:
 +-------------------+-------------------+-------------------+-------------------+
 |       Text        |        148        |       593         |       80.0        |
 +-------------------+-------------------+-------------------+-------------------+
-
-
-Basic Matrix:
-{'text': {'text': 327, 'drawing': 414}, 'drawing': {'text': 734, 'drawing': 540}}
-
-Improved Matrix:
-{'text': {'text': 593, 'drawing': 148}, 'drawing': {'text': 1082, 'drawing': 192}}
-
-

@@ -7,6 +7,8 @@ What features did you try?
           set a threshold where the cutoff between text and drawing seemed to be: 0.2.
 
 
+Basic Matrix:
+{'text': {'text': 327, 'drawing': 414}, 'drawing': {'text': 734, 'drawing': 540}}
 
 Improved Matrix:
 {'text': {'text': 593, 'drawing': 148}, 'drawing': {'text': 1082, 'drawing': 192}}

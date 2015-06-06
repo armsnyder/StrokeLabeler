@@ -205,9 +205,9 @@ class StrokeLabeler:
         #    name to whether it is continuous or discrete
         # numFVals is a dictionary specifying the number of legal values for
         #    each discrete feature
-        self.featureNames = ['length', 'curvature']
-        self.contOrDisc = {'length': DISCRETE, 'curvature': DISCRETE}
-        self.numFVals = {'length': 2, 'curvature':2}
+        self.featureNames = ['length', 'curvature', 'speed']
+        self.contOrDisc = {'length': DISCRETE, 'curvature': DISCRETE, 'speed': DISCRETE}
+        self.numFVals = {'length': 2, 'curvature': 2, 'speed': 4}
 
     def featurefy( self, strokes ):
         ''' Converts the list of strokes into a list of feature dictionaries
@@ -252,6 +252,16 @@ class StrokeLabeler:
                 else:
                     d['curvature'] = 1
 
+                sp = s.strokeSpeed()
+                if sp < 0.4:
+                    d['speed'] = 0
+                elif 0.4 <= sp < 0.8:
+                    d['speed'] = 1
+                elif 0.8 <= sp < 0.11:
+                    d['speed'] = 2
+                else:
+                    d['speed'] = 3
+
             ret.append(d)  # append the feature dictionary to the list
             
         return ret
@@ -291,7 +301,8 @@ class StrokeLabeler:
             print "Label is", labels[i]
             print "Length is", strokes[i].length()
             print "Curvature is", strokes[i].sumOfCurvature(abs)
-    
+            print "Speed is", strokes[i].strokeSpeed()
+
     def labelFile( self, strokeFile, outFile ):
         ''' Label the strokes in the file strokeFile and save the labels
             (with the strokes) in the outFile '''
@@ -582,6 +593,9 @@ class Stroke:
         return ret / len(self.points)
 
     # You can (and should) define more features here
+
+    def strokeSpeed(self):
+        return len(self.points)/self.length()
 
 def confusion(trueLabels, classifications):
     label_names = set(trueLabels + classifications)

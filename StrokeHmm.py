@@ -192,17 +192,6 @@ class StrokeLabeler:
         drawingLabels = ['Wire', 'AND', 'OR', 'XOR', 'NAND', 'NOT']
         textLabels = ['Label']
         self.labels = ['drawing', 'text']
-
-        #set of 4 example letters to use with text classification
-        self.letterData = []
-        labelsAB = self.loadLabeledFile("trainingFiles/0128_6.1.1.labeled.xml")
-        labelsCD = self.loadLabeledFile("trainingFiles/0128_6.1.1.labeled.xml")
-        self.letterData[0] = labelsAB[0]
-        self.letterData[1] = labelsAB[3]
-        self.letterData[2] = labelsCD[3]
-        self.letterData[3] = labelsCD[4]
-
-
         self.labelDict = {}
         for l in drawingLabels:
             self.labelDict[l] = 'drawing'
@@ -221,6 +210,15 @@ class StrokeLabeler:
         self.contOrDisc = {'length': DISCRETE, 'curvature': DISCRETE, 'leftDist': DISCRETE, 'speed': DISCRETE,
                            'letterMatch': DISCRETE}
         self.numFVals = {'length': 2, 'curvature': 2, 'leftDist': 2, 'speed': 4,'letterMatch': 2}
+
+        #set of 4 example letters to use with text classification
+        self.letterData = [None, None, None, None]
+        labelsAB = self.loadLabeledFile("trainingFiles/0128_6.1.1.labeled.xml")
+        labelsCD = self.loadLabeledFile("trainingFiles/0128_6.1.1.labeled.xml")
+        self.letterData[0] = labelsAB[0][0]
+        self.letterData[1] = labelsAB[0][3]
+        self.letterData[2] = labelsCD[0][3]
+        self.letterData[3] = labelsCD[0][4]
 
     def featurefy( self, strokes ):
         ''' Converts the list of strokes into a list of feature dictionaries

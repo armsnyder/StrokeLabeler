@@ -211,7 +211,7 @@ class StrokeLabeler:
                            'letterMatch': DISCRETE}
         self.numFVals = {'length': 2, 'curvature': 2, 'leftDist': 2, 'speed': 4,'letterMatch': 2}
 
-        #set of 4 example letters to use with text classification
+        # set of 4 example letters to use with text classification
         self.letterData = [None, None, None, None]
         self.useLetterData = True
         try:

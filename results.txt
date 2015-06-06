@@ -15,7 +15,7 @@ What features did you try?
           found that there were several cutoff points because text is written at a relatively constant speed, whereas
           drawings can be either very fast or very slow.
     - letter matching
-        * DISCRETE (2 - T/F)
+        * DISCRETE (2 - Boolean)
         * We used a letter set from the training data to compare strokes to letters A-D. We set the tolerances by
           examining sample results and using trial and error.
 
@@ -31,7 +31,7 @@ Basic Matrix:
 |       Text        |        414        |       327         |       44.1        |
 +-------------------+-------------------+-------------------+-------------------+
 
-Improved Matrix Without Letter Recognition:
+Improved Matrix Without Letter Matching:
 +-------------------+-------------------+-------------------+-------------------+
 |    True Label     |      Drawing      |       Text        |  Percent Correct  |
 +-------------------+-------------------+-------------------+-------------------+
@@ -40,7 +40,7 @@ Improved Matrix Without Letter Recognition:
 |       Text        |        148        |       593         |       80.0        |
 +-------------------+-------------------+-------------------+-------------------+
 
-Improved Matrix With All Features (Including Letter Recognition):
+Improved Matrix With All Features (Including Letter Matching):
 +-------------------+-------------------+-------------------+-------------------+
 |    True Label     |      Drawing      |       Text        |  Percent Correct  |
 +-------------------+-------------------+-------------------+-------------------+

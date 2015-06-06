@@ -2,13 +2,18 @@ Author(s) names AND netid's: Michael Nowakowski (mjn912), Adam Snyder (ars123) a
 
 What features did you try?
     - curvature (summed absolute value)
-        * DISCRETE
+        * DISCRETE (2)
         * We determined a threshold by using the provided testFeatures function and looking at the numerical data. We
           set a threshold where the cutoff between text and drawing seemed to be: 0.2.
     - distance from the left side of the canvas (average value)
-        * DISCRETE
+        * DISCRETE (2)
         * We determined a threshold by using the provided testFeatures function and looking at the numerical data. We
           set a threshold where the cutoff between text and drawing seemed to be: 1500.
+    - stroke speed (number of points / length of stroke)
+        * DISCRETE (4)
+        * We determined a threshold by using the provided testFeatures function and looking at the numerical data. We
+          found that there were several cutoff points because text is written at a relatively constant speed, whereas
+          drawings can be either very fast or very slow.
 
 
 Basic Matrix:

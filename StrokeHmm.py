@@ -539,8 +539,8 @@ class StrokeLabeler:
         labels = []
         for f in tFiles:
             _s, _l = self.loadLabeledFile(f)
-            strokes.append(_s)
-            labels.append(_l)
+            strokes.extend(_s)
+            labels.extend(_l)
         return strokes, labels
 
 

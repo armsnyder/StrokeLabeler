@@ -207,9 +207,9 @@ class StrokeLabeler:
         #    name to whether it is continuous or discrete
         # numFVals is a dictionary specifying the number of legal values for
         #    each discrete feature
-        self.featureNames = ['length', 'curvature', 'speed']
-        self.contOrDisc = {'length': DISCRETE, 'curvature': DISCRETE, 'speed': DISCRETE}
-        self.numFVals = {'length': 2, 'curvature': 2, 'speed': 4}
+        self.featureNames = ['length', 'curvature', 'leftDist', 'speed']
+        self.contOrDisc = {'length': DISCRETE, 'curvature': DISCRETE, 'leftDist': DISCRETE, 'speed': DISCRETE}
+        self.numFVals = {'length': 2, 'curvature': 2, 'leftDist': 2, 'speed': 4}
 
     def featurefy( self, strokes ):
         ''' Converts the list of strokes into a list of feature dictionaries
@@ -253,6 +253,13 @@ class StrokeLabeler:
                     d['curvature'] = 0
                 else:
                     d['curvature'] = 1
+
+            if isinstance(s, Stroke):
+                if s.distFromLeft() < 1500:
+                    d['leftDist'] = 0
+                else:
+                    d['leftDist'] = 1
+
 
                 sp = s.strokeSpeed()
                 if sp < 0.4:
@@ -303,6 +310,7 @@ class StrokeLabeler:
             print "Label is", labels[i]
             print "Length is", strokes[i].length()
             print "Curvature is", strokes[i].sumOfCurvature(abs)
+            print "Left distance is", strokes[i].distFromLeft()
             print "Speed is", strokes[i].strokeSpeed()
 
     def labelFile( self, strokeFile, outFile ):
@@ -544,8 +552,6 @@ class Stroke:
             prev = p
         return ret
 
-
-
     def sumOfCurvature(self, func=lambda x: x, skip=1):
         ''' Return the normalized sum of curvature for a stroke.
             func is a function to apply to the curvature before summing
@@ -595,6 +601,10 @@ class Stroke:
         return ret / len(self.points)
 
     # You can (and should) define more features here
+
+    def distFromLeft(self):
+        '''Returns the average distance from the left side of the canvas'''
+        return float(sum([s[0] for s in self.points]))/len(self.points)
 
     def strokeSpeed(self):
         try:

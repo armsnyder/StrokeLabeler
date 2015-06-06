@@ -495,6 +495,30 @@ class StrokeLabeler:
             print "numStrokes is", len(strokes), "numLabels is", len(labels)
         return strokes, labels
 
+    def loadLabeledFileDir(self, folder):
+        """
+        Loads a folder of labeled files
+        :param folder: directory name (string)
+        :return: strokes, labels
+        """
+        for fFileObj in os.walk(folder):
+            lFileList = fFileObj[2]
+            break
+        goodList = []
+        for x in lFileList:
+            if not x.startswith('.'):
+                goodList.append(x)
+
+        tFiles = [ folder + "/" + f for f in goodList ]
+
+        strokes = []
+        labels = []
+        for f in tFiles:
+            _s, _l = self.loadLabeledFile(f)
+            strokes.extend(_s)
+            labels.extend(_l)
+        return strokes, labels
+
 class Stroke:
     ''' A class to represent a stroke (series of xyt points).
         This class also has various functions for computing stroke features. '''

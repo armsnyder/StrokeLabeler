@@ -5,6 +5,11 @@ What features did you try?
         * DISCRETE
         * We determined a threshold by using the provided testFeatures function and looking at the numerical data. We
           set a threshold where the cutoff between text and drawing seemed to be: 0.2.
+    - distance from the left side of the canvas (average value)
+        * DISCRETE
+        * We determined a threshold by using the provided testFeatures function and looking at the numerical data. We
+          set a threshold where the cutoff between text and drawing seemed to be: 1500.
+
 
 
 Basic Matrix:

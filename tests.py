@@ -94,52 +94,55 @@ class TestConfusion(unittest.TestCase):
         self.assertEqual({'drawing': {'drawing': 0, 'text': 3}, 'text': {'drawing': 3, 'text': 2}},
                          StrokeHmm.confusion(['drawing', 'text', 'text', 'text', 'drawing', 'drawing', 'text', 'text'],
                                              ['text', 'drawing', 'drawing', 'drawing', 'text', 'text', 'text', 'text']))
+    def test_featurefy(self):
+        test_labeler = StrokeHmm.StrokeLabeler()
+        test_labeler.featureTest("trainingFiles/4242_2.9.1.labeled.xml")
 
-    def test_labeler(self):
-        test_stroke = StrokeHmm.StrokeLabeler()
-        # test_stroke.featureTest("trainingFiles/4242_2.9.1.labeled.xml")
-        stroke_labels = test_stroke.loadLabeledFile("trainingFiles/0128_6.1.1.labeled.xml")
-        print stroke_labels[0][3].strokeId
-        print stroke_labels[0][3].length()
-        print stroke_labels[0][3].sumOfCurvature(abs)
-        print stroke_labels[0][3].distFromLeft()
-        print stroke_labels[0][3].strokeSpeed()
-
-        length_tol = 100
-        curvature_tol = 0.2
-        distfromLeft_tol = 200
-        strokeSpeed_tol = 0.5
-
-        test_stroke2 = StrokeHmm.StrokeLabeler()
-
-        test_stroke_bunch = test_stroke2.loadStrokeFile("trainingFiles/4242_2.7.1.labeled.xml")
-
-        for ind_stroke in test_stroke_bunch:
-            lengthtest = abs(ind_stroke.length() - stroke_labels[0][3].length())
-            curvetest = abs(ind_stroke.sumOfCurvature(abs) - stroke_labels[0][3].sumOfCurvature(abs))
-            distTest = abs(ind_stroke.distFromLeft() - stroke_labels[0][3].distFromLeft())
-            # print ind_stroke.strokeId
-
-            if (lengthtest < 40) and (curvetest < 40) and (distTest < 200):
-                print "it's a b"
-                print ind_stroke.strokeId
-                print lengthtest, curvetest, distTest
-
-
-        print "***************** NEW FILE ************"
-        test_stroke_bunch = test_stroke2.loadStrokeFile("trainingFiles/0128_6.1.1.labeled.xml")
-
-        for ind_stroke in test_stroke_bunch:
-            lengthtest = abs(ind_stroke.length() - stroke_labels[0][3].length())
-            curvetest = abs(ind_stroke.sumOfCurvature(abs) - stroke_labels[0][3].sumOfCurvature(abs))
-            distTest = abs(ind_stroke.distFromLeft() - stroke_labels[0][3].distFromLeft())
-            # print ind_stroke.strokeId
-            # print lengthtest, curvetest, distTest
-
-            if (lengthtest < 80) and (curvetest < 0.2) and (distTest < 200):
-                print "it's a b"
-                print ind_stroke.strokeId
-                print lengthtest, curvetest, distTest
+    # def test_labeler(self):
+    #     test_stroke = StrokeHmm.StrokeLabeler()
+    #     # test_stroke.featureTest("trainingFiles/4242_2.9.1.labeled.xml")
+    #     stroke_labels = test_stroke.loadLabeledFile("trainingFiles/0128_6.1.1.labeled.xml")
+    #     print stroke_labels[0][3].strokeId
+    #     print stroke_labels[0][3].length()
+    #     print stroke_labels[0][3].sumOfCurvature(abs)
+    #     print stroke_labels[0][3].distFromLeft()
+    #     print stroke_labels[0][3].strokeSpeed()
+    #
+    #     length_tol = 100
+    #     curvature_tol = 0.2
+    #     distfromLeft_tol = 200
+    #     strokeSpeed_tol = 0.5
+    #
+    #     test_stroke2 = StrokeHmm.StrokeLabeler()
+    #
+    #     test_stroke_bunch = test_stroke2.loadStrokeFile("trainingFiles/4242_2.7.1.labeled.xml")
+    #
+    #     for ind_stroke in test_stroke_bunch:
+    #         lengthtest = abs(ind_stroke.length() - stroke_labels[0][3].length())
+    #         curvetest = abs(ind_stroke.sumOfCurvature(abs) - stroke_labels[0][3].sumOfCurvature(abs))
+    #         distTest = abs(ind_stroke.distFromLeft() - stroke_labels[0][3].distFromLeft())
+    #         # print ind_stroke.strokeId
+    #
+    #         if (lengthtest < 40) and (curvetest < 40) and (distTest < 200):
+    #             print "it's a b"
+    #             print ind_stroke.strokeId
+    #             print lengthtest, curvetest, distTest
+    #
+    #
+    #     print "***************** NEW FILE ************"
+    #     test_stroke_bunch = test_stroke2.loadStrokeFile("trainingFiles/0128_6.1.1.labeled.xml")
+    #
+    #     for ind_stroke in test_stroke_bunch:
+    #         lengthtest = abs(ind_stroke.length() - stroke_labels[0][3].length())
+    #         curvetest = abs(ind_stroke.sumOfCurvature(abs) - stroke_labels[0][3].sumOfCurvature(abs))
+    #         distTest = abs(ind_stroke.distFromLeft() - stroke_labels[0][3].distFromLeft())
+    #         # print ind_stroke.strokeId
+    #         # print lengthtest, curvetest, distTest
+    #
+    #         if (lengthtest < 80) and (curvetest < 0.2) and (distTest < 200):
+    #             print "it's a b"
+    #             print ind_stroke.strokeId
+    #             print lengthtest, curvetest, distTest
 
 
 

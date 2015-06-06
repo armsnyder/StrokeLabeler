@@ -248,19 +248,20 @@ class StrokeLabeler:
             # above in the contructor: self.featureNames, self.contOrDisc,
             #    self.numFVals (for discrete features only)
             if isinstance(s, Stroke):
+                # Curvature:
                 c = s.sumOfCurvature(abs)
                 if c < 0.2:
                     d['curvature'] = 0
                 else:
                     d['curvature'] = 1
 
-            if isinstance(s, Stroke):
+                # Distance from left:
                 if s.distFromLeft() < 1500:
                     d['leftDist'] = 0
                 else:
                     d['leftDist'] = 1
 
-
+                # Stroke speed:
                 sp = s.strokeSpeed()
                 if sp < 0.4:
                     d['speed'] = 0
@@ -637,14 +638,26 @@ class Stroke:
         except ZeroDivisionError:
             return 0
 
+
 def confusion(trueLabels, classifications):
-    label_names = set(trueLabels + classifications)
+    """
+    Creates a confusion matrix based on true labels and classifications
+    :param trueLabels: list of correct labels
+    :param classifications: list of classified labels
+    :return: dictionary matrix
+    """
+    label_names = set(trueLabels + classifications)  # list of all possible classifications
     num_labels = min(len(trueLabels), len(classifications))
     result = {}
+
+    # Initialize confusion matrix
     for label in label_names:
         result[label] = {}
         for label2 in label_names:
             result[label][label2] = 0
+
+    # Add values to confusion matrix
     for i in range(num_labels):
             result[trueLabels[i]][classifications[i]] += 1
+
     return result

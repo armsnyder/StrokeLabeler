@@ -24,3 +24,5 @@ Improved Matrix:
 {'text': {'text': 593, 'drawing': 148}, 'drawing': {'text': 1082, 'drawing': 192}}
 
 
+We trained and tested our basic and improved algorithms over all of the training files. Our improved algorithm did a
+better job at classifying text, but was worse at classifying drawings.

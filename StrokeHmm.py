@@ -213,12 +213,21 @@ class StrokeLabeler:
 
         #set of 4 example letters to use with text classification
         self.letterData = [None, None, None, None]
-        labelsAB = self.loadLabeledFile("trainingFiles/0128_6.1.1.labeled.xml")
-        labelsCD = self.loadLabeledFile("trainingFiles/0128_6.1.1.labeled.xml")
-        self.letterData[0] = labelsAB[0][0]
-        self.letterData[1] = labelsAB[0][3]
-        self.letterData[2] = labelsCD[0][3]
-        self.letterData[3] = labelsCD[0][4]
+        self.useLetterData = True
+        try:
+            labelsAB = self.loadLabeledFile("trainingFiles/0128_6.1.1.labeled.xml")
+            labelsCD = self.loadLabeledFile("trainingFiles/0128_6.1.1.labeled.xml")
+        except IOError:
+            try:
+                labelsAB = self.loadLabeledFile("../trainingFiles/0128_6.1.1.labeled.xml")
+                labelsCD = self.loadLabeledFile("../trainingFiles/0128_6.1.1.labeled.xml")
+            except IOError:
+                self.useLetterData = False
+        if self.useLetterData:
+            self.letterData[0] = labelsAB[0][0]
+            self.letterData[1] = labelsAB[0][3]
+            self.letterData[2] = labelsCD[0][3]
+            self.letterData[3] = labelsCD[0][4]
 
     def featurefy( self, strokes ):
         ''' Converts the list of strokes into a list of feature dictionaries
@@ -282,10 +291,11 @@ class StrokeLabeler:
                     d['speed'] = 3
 
                 # letter matches
-                if s.stroke_letter_match(self.letterData):
-                    d['letterMatch'] = 1
-                else:
-                    d['letterMatch'] = 0
+                if self.useLetterData:
+                    if s.stroke_letter_match(self.letterData):
+                        d['letterMatch'] = 1
+                    else:
+                        d['letterMatch'] = 0
 
             ret.append(d)  # append the feature dictionary to the list
             

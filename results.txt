@@ -40,7 +40,7 @@ Improved Matrix Without Letter Recognition:
 |       Text        |        148        |       593         |       80.0        |
 +-------------------+-------------------+-------------------+-------------------+
 
-Improved Matrix With Letter Recognition:
+Improved Matrix With All Features (Including Letter Recognition):
 +-------------------+-------------------+-------------------+-------------------+
 |    True Label     |      Drawing      |       Text        |  Percent Correct  |
 +-------------------+-------------------+-------------------+-------------------+

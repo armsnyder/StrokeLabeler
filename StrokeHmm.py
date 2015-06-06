@@ -597,7 +597,10 @@ class Stroke:
     # You can (and should) define more features here
 
     def strokeSpeed(self):
-        return len(self.points)/self.length()
+        try:
+            return len(self.points)/self.length()
+        except ZeroDivisionError:
+            return 0
 
 def confusion(trueLabels, classifications):
     label_names = set(trueLabels + classifications)

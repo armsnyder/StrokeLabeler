@@ -338,6 +338,7 @@ class StrokeLabeler:
             print "Curvature is", strokes[i].sumOfCurvature(abs)
             print "Left distance is", strokes[i].distFromLeft()
             print "Speed is", strokes[i].strokeSpeed()
+            print "Letter Match is", strokes[i].stroke_letter_match(self.letterData)
 
     def labelFile( self, strokeFile, outFile ):
         ''' Label the strokes in the file strokeFile and save the labels
@@ -664,24 +665,22 @@ class Stroke:
             return 0
 
     def stroke_letter_match(self, letterlist):
-        """repetition of strokes across documents would suggest handwriting """
+        """looks for matches to letters A, B, C, or D based on 2 different training file letter sets
+         :param letterlist: list of letters added in strokeLabeler
+         """
         length_tol = 100
         curvature_tol = 0.2
         distFromLeft_tol = 200
         strokeSpeed_tol = 0.5
         status = False
 
-
         for letter_example in letterlist:
             lengthtest = abs(self.length() - letter_example.length())
             curvetest = abs(self.sumOfCurvature(abs) - letter_example.sumOfCurvature(abs))
             distTest = abs(self.distFromLeft() - letter_example.distFromLeft())
-            # print ind_stroke.strokeId
+            speedTest = abs(self.strokeSpeed() - letter_example.strokeSpeed())
 
             if (lengthtest < length_tol) and (curvetest < curvature_tol) and (distTest < distFromLeft_tol):
-                print "it's a letter"
-                print self.strokeId
-                print lengthtest, curvetest, distTest
                 status = True
 
         return status

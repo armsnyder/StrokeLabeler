@@ -192,7 +192,17 @@ class StrokeLabeler:
         drawingLabels = ['Wire', 'AND', 'OR', 'XOR', 'NAND', 'NOT']
         textLabels = ['Label']
         self.labels = ['drawing', 'text']
-        
+
+        #set of 4 example letters to use with text classification
+        self.letterData = []
+        labelsAB = self.loadLabeledFile("trainingFiles/0128_6.1.1.labeled.xml")
+        labelsCD = self.loadLabeledFile("trainingFiles/0128_6.1.1.labeled.xml")
+        self.letterData[0] = labelsAB[0]
+        self.letterData[1] = labelsAB[3]
+        self.letterData[2] = labelsCD[3]
+        self.letterData[3] = labelsCD[4]
+
+
         self.labelDict = {}
         for l in drawingLabels:
             self.labelDict[l] = 'drawing'
@@ -207,9 +217,10 @@ class StrokeLabeler:
         #    name to whether it is continuous or discrete
         # numFVals is a dictionary specifying the number of legal values for
         #    each discrete feature
-        self.featureNames = ['length', 'curvature', 'leftDist', 'speed']
-        self.contOrDisc = {'length': DISCRETE, 'curvature': DISCRETE, 'leftDist': DISCRETE, 'speed': DISCRETE}
-        self.numFVals = {'length': 2, 'curvature': 2, 'leftDist': 2, 'speed': 4}
+        self.featureNames = ['length', 'curvature', 'leftDist', 'speed','letterMatch']
+        self.contOrDisc = {'length': DISCRETE, 'curvature': DISCRETE, 'leftDist': DISCRETE, 'speed': DISCRETE,
+                           'letterMatch': DISCRETE}
+        self.numFVals = {'length': 2, 'curvature': 2, 'leftDist': 2, 'speed': 4,'letterMatch': 2}
 
     def featurefy( self, strokes ):
         ''' Converts the list of strokes into a list of feature dictionaries
@@ -245,7 +256,7 @@ class StrokeLabeler:
             # We can add more features here just by adding them to the dictionary
             # d as we did with length.  Remember that when you add features,
             # you also need to add them to the three member data structures
-            # above in the contructor: self.featureNames, self.contOrDisc,
+            # above in the constructor: self.featureNames, self.contOrDisc,
             #    self.numFVals (for discrete features only)
             if isinstance(s, Stroke):
                 # Curvature:
@@ -271,6 +282,12 @@ class StrokeLabeler:
                     d['speed'] = 2
                 else:
                     d['speed'] = 3
+
+                # letter matches
+                if s.stroke_letter_match(self.letterData):
+                    d['letterMatch'] = 1
+                else:
+                    d['letterMatch'] = 0
 
             ret.append(d)  # append the feature dictionary to the list
             
@@ -615,7 +632,7 @@ class Stroke:
             curv = math.acos(arg)
 
             # now we have to find the sign of the curvature
-            # get the angle betwee the first vector and the x axis
+            # get the angle between the first vector and the x axis
             anga = math.atan2(ay, ax)
             # and the second
             angb = math.atan2(by, bx)
@@ -637,6 +654,29 @@ class Stroke:
             return len(self.points)/self.length()
         except ZeroDivisionError:
             return 0
+
+    def stroke_letter_match(self, letterlist):
+        """repetition of strokes across documents would suggest handwriting """
+        length_tol = 100
+        curvature_tol = 0.2
+        distFromLeft_tol = 200
+        strokeSpeed_tol = 0.5
+        status = False
+
+
+        for letter_example in letterlist:
+            lengthtest = abs(self.length() - letter_example.length())
+            curvetest = abs(self.sumOfCurvature(abs) - letter_example.sumOfCurvature(abs))
+            distTest = abs(self.distFromLeft() - letter_example.distFromLeft())
+            # print ind_stroke.strokeId
+
+            if (lengthtest < length_tol) and (curvetest < curvature_tol) and (distTest < distFromLeft_tol):
+                print "it's a letter"
+                print self.strokeId
+                print lengthtest, curvetest, distTest
+                status = True
+
+        return status
 
 
 def confusion(trueLabels, classifications):

@@ -1,3 +1,5 @@
+# Author(s) names AND netid's: Michael Nowakowski (mjn912), Adam Snyder (ars123) and Steven Vorbrich (slv398)
+
 import xml.dom.minidom
 import copy
 import guid

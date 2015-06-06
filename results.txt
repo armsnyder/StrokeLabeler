@@ -1,3 +1,5 @@
+Author(s) names AND netid's: Michael Nowakowski (mjn912), Adam Snyder (ars123) and Steven Vorbrich (slv398)
+
 What features did you try?
     - curvature (summed absolute value)
         * DISCRETE
